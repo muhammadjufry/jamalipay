@@ -1,0 +1,101 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                    String                 @id @default(cuid())
+  name                  String?
+  username              String?                @unique
+  email                 String?                @unique
+  emailVerified         DateTime?
+  image                 String?
+  bio                   String?
+  dateOfBirth           String?
+  password              String?
+  accounts              Account[]
+  paymentMethod         PaymentMethod[]
+  appearance            Appearance?
+  isTwoFactorEnabled    Boolean                @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model PaymentMethod {
+  id              String @id @default(cuid())
+  userId          String
+  paymentProvider String
+  cardNumber      String
+  cardName        String
+  cardExpired     String
+  cardCVV         String
+  expires_at      Int?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Appearance {
+  id     String  @id @default(cuid())
+  userId String  @unique
+  theme  String? @default("system")
+  font   String? @default("Thicccboi")
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model ForgotPasswordToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}

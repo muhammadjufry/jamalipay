@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@font-face {
+  font-family: "THICCCBOI";
+  src: url("/fonts/THICCCBOI-Thin.woff2");
+  font-weight: 100;
+}
+@font-face {
+  font-family: "THICCCBOI";
+  src: url("/fonts/THICCCBOI-Light.woff2");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "THICCCBOI";
+  src: url("/fonts/THICCCBOI-Regular.woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "THICCCBOI";
+  src: url("/fonts/THICCCBOI-Medium.woff2");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "THICCCBOI";
+  src: url("/fonts/THICCCBOI-SemiBold.woff2");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "THICCCBOI";
+  src: url("/fonts/THICCCBOI-Bold.woff2");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "THICCCBOI";
+  src: url("/fonts/THICCCBOI-ExtraBold.woff2");
+  font-weight: 800;
+}
+@font-face {
+  font-family: "THICCCBOI";
+  src: url("/fonts/THICCCBOI-Black.woff2");
+  font-weight: 900;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    overflow-x: hidden;
+  }
+  .text-shadow {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  .apexcharts-tooltip.apexcharts-theme-light {
+    @apply !border-slate-300 dark:!border-gray-600;
+  }
+  .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+    @apply !border-slate-300 dark:!border-gray-600;
+  }
+
+  .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title,
+  .apexcharts-tooltip {
+    @apply !bg-white dark:!bg-gray-800;
+  }
+}
