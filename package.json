@@ -2,10 +2,14 @@
   "name": "jamalipay",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "docker:build": "docker-compose -p jamalipay build --no-cache",
+    "docker:up": "docker-compose -p jamalipay up -d",
+    "docker:watch": "docker-compose watch",
+    "docker:down": "docker-compose -p jamalipay down"
+  },
   "keywords": [],
-  "author": "",
+  "author": "Muhammad Jufry",
   "license": "ISC",
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",

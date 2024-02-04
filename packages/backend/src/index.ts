@@ -141,3 +141,6 @@ server.listen(PORT, () => {
 });
 
 app.use("/api/v1", router);
+app.get("/", (req, res) => {
+  res.send("Helo world.");
+});
