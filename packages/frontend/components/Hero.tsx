@@ -3,7 +3,6 @@ import { IconArrowRight } from "@tabler/icons-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 export default function Hero() {
   const { resolvedTheme } = useTheme();
   return (
@@ -14,7 +13,7 @@ export default function Hero() {
         transition={{ duration: 0.5 }}
         className="!text-sky-500 text-[17.5px]"
       >
-        Build product for everyone
+        Build product for
       </motion.span>
       <motion.h2
         initial={{ y: -20, opacity: 0 }}

@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./packages/backend
+      dockerfile: Dockerfile
+    develop:
+      watch:
+       - path: ./packages/backend
+         action: rebuild
+       - path: ./packages/backend
+         target: /app/backend 
+         action: sync
+    ports:
+      - 8080:8080
+    restart: always
+  frontend:
+    container_name: frontend
+    build:
+      context: ./packages/frontend
+      dockerfile: Dockerfile
+    develop:
+      watch:
+       - path: ./packages/frontend
+         action: rebuild
+       - path: ./packages/frontend
+         target: /app/frontend 
+         action: sync
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+    restart: always
