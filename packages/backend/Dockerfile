@@ -8,8 +8,6 @@ RUN npm install
 
 EXPOSE 8080
 
-# RUN adduser -ms /bin/bash -u 1001 app
-# USER app
 COPY . .
 
 CMD [ "npm", "run", "dev" ]
