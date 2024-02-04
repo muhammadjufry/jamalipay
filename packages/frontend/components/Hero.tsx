@@ -13,7 +13,7 @@ export default function Hero() {
         transition={{ duration: 0.5 }}
         className="!text-sky-500 text-[17.5px]"
       >
-        Build product for
+        Build product for everyone
       </motion.span>
       <motion.h2
         initial={{ y: -20, opacity: 0 }}
