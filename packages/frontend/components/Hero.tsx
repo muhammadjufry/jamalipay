@@ -43,7 +43,7 @@ export default function Hero() {
         className="flex items-center gap-4"
       >
         <a href="/docs">
-          <button className="py-3 px-5 bg-white dark:bg-[#121212] dark:border-white border-2 border rounded-md">
+          <button className="py-3 px-5 bg-white dark:bg-[#121212] dark:border-white border rounded-md">
             Read Docs
           </button>
         </a>
