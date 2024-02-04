@@ -8,7 +8,8 @@ const config = {
       "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
     }],
     "@semantic-release/github"
-  ]
+  ],
+  ci: false
 }
 
 module.exports = config;
