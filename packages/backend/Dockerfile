@@ -4,10 +4,11 @@ WORKDIR /app
 COPY package.json package*.json ./
 ENV PORT=8080
 
-RUN npm install
+RUN yarn set version stable
+RUN yarn install
 
 EXPOSE 8080
 
 COPY . .
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "yarn", "dev" ]

@@ -3,10 +3,11 @@ FROM node:latest
 WORKDIR /app
 COPY package.json package*.json ./
 
-RUN npm install
+RUN yarn set version stable
+RUN yarn install
 
 EXPOSE 3000
 
 COPY . .
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "yarn", "dev" ]

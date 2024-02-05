@@ -1,19 +1,33 @@
 {
   "name": "jamalipay",
   "version": "1.0.0",
-  "description": "",
+  "description": "Payment gateway like Stripe, Lemon Squezzy, etc",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "scripts": {
     "docker:build": "docker-compose -p jamalipay build --no-cache",
     "docker:up": "docker-compose -p jamalipay up -d",
     "docker:watch": "docker-compose watch",
-    "docker:down": "docker-compose -p jamalipay down"
+    "docker:down": "docker-compose -p jamalipay down",
+    "backend-dev": "yarn workspace backend dev",
+    "backend-start": "yarn workspace backend start",
+    "backend-lint": "yarn workspace backend lint",
+    "frontend-dev": "yarn workspace frontend dev",
+    "dev": "concurrently \"yarn:backend-dev\" \"yarn:frontend-dev\""
   },
   "keywords": [],
   "author": "Muhammad Jufry",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^9.2.6",
     "semantic-release": "^23.0.0"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
   }
 }
