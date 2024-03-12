@@ -1,6 +1,7 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session, User } from "next-auth";
 import { db } from "@/lib/db";
 import authConfig from "@/auth.config";
+import { JWT } from "@auth/core/jwt";
 import { getUserById } from "@/data/user";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
@@ -45,8 +46,14 @@ export const {
 
       return true;
     },
-    async session({ token, session }) {
-      if (token.sub && session.user) {
+    async session({
+      token,
+      session,
+    }: {
+      token?: JWT;
+      session: Session;
+    }): Promise<Session> {
+      if (token && token.sub && session.user) {
         session.user.id = token.sub;
         session.accessToken = token.access_token;
       }
