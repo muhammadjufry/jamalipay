@@ -1,8 +1,10 @@
 import * as z from "zod";
 import express from "express";
-import { createUser, getUserByEmail } from "../utils/users";
+import { createUser, getUserByEmail } from "../lib/users";
 import bcrypt from "bcryptjs";
 import { RegisterValidator } from "../validator/Register";
+import { createUserVerification } from "../lib/userVerification";
+import sendEmail from "../lib/mail";
 
 export const register = async (req: express.Request, res: express.Response) => {
   try {
@@ -25,8 +27,15 @@ export const register = async (req: express.Request, res: express.Response) => {
       password: hashedPassword,
       provider: "credentials",
     });
+    const userVerification = await createUserVerification(user.email);
+    sendEmail({
+      emailDestination: user.email,
+      subject: `JAMALI PAY | YOUR VERIFICATION CODE IS ${userVerification.token}`,
+      content: `Your verification code is: ${userVerification.token}`,
+    });
     return res.send({ user });
   } catch (error) {
+    console.log(error);
     return res.send({ error: "Something went wrong!" }).status(400);
   }
 };

@@ -35,7 +35,7 @@ function Header({ session }: Props) {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 1 }}
-      className="fixed top-0 left-0 w-full border-b z-30"
+      className="fixed top-0 left-0 w-full border-b z-30 bg-white"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 p-4">
         <Link href="/">

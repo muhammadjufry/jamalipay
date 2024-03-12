@@ -1,4 +1,4 @@
-require("dotenv").config();
+import dotenv from "dotenv";
 import express from "express";
 import http from "http";
 import bodyParser from "body-parser";
@@ -11,7 +11,7 @@ import passportLocal from "passport-local";
 import passportGoogle from "passport-google-oauth20";
 import passportGithub from "passport-github2";
 import jwt from "jsonwebtoken";
-import { createUser, getUserByEmail } from "./utils/users";
+import { createUser, getUserByEmail } from "./lib/users";
 import bcrypt from "bcryptjs";
 import { LoginValidator } from "./validator/Login";
 import flash from "express-flash";
@@ -32,7 +32,16 @@ const GithubStrategy = passportGithub.Strategy;
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use(cors());
+dotenv.config({});
+app.use(
+  cors({
+    origin: [
+      process.env.NODE_ENV === "production"
+        ? "https://jamalipay.com"
+        : "http://localhost:3000",
+    ],
+  })
+);
 app.use(flash());
 app.use(
   expressSession({
@@ -53,17 +62,21 @@ passport.use(
       const validatedFields = LoginValidator.safeParse({ email, password });
       if (!validatedFields.success)
         return done(null, { error: "Invalid fields!" });
-      const user = await getUserByEmail(validatedFields.data.email);
-      if (!user) return done(null, { error: "User does not exist!" });
-      if (!user.password)
+      const existingUser = await getUserByEmail(validatedFields.data.email);
+      if (existingUser.status === "error")
+        return done(null, { error: existingUser.error });
+      if (!existingUser.data.user.password)
         return done(null, {
           error: "User already taken using other provider!",
         });
-      if (!user.verified)
+      if (!existingUser.data.user.verified)
         return done(null, { error: "Email not yet verified" });
-      const checkPassword = await bcrypt.compare(password, user.password);
+      const checkPassword = await bcrypt.compare(
+        password,
+        existingUser.data.user.password
+      );
       if (!checkPassword) return done(null, { error: "Password not correct!" });
-      const token = jwt.sign(user, process.env.JTW_SECRET!, {
+      const token = jwt.sign(existingUser.data.user, process.env.JWT_SECRET!, {
         expiresIn: "7d",
       });
       return done(null, token);
@@ -74,8 +87,8 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
       callbackURL: "http://localhost:8080/api/v1/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -83,36 +96,39 @@ passport.use(
       if (!userEmail)
         return done(null, false, { message: "Email is required!" });
       const existingUser = await getUserByEmail(userEmail);
-      console.log(existingUser);
-      if (!existingUser) {
+      if (existingUser.statusCode === 404) {
         const user = await createUser({
           name: profile.displayName,
           email: userEmail,
           provider: "google",
           verified: profile?._json?.email_verified || true,
         });
-        const token = jwt.sign(user, process.env.JTW_SECRET!, {
+        const token = jwt.sign(user, process.env.JWT_SECRET!, {
           expiresIn: "7d",
         });
         return done(null, token);
       }
-      if (existingUser?.provider === "credentials") {
+      if (existingUser.status === "error" && existingUser.statusCode !== 404) {
+        return done(null, false, existingUser.error);
+      }
+      if (existingUser.data.user?.provider === "credentials") {
         return done(null, false, {
           message: "Email already taken with other provider!",
         });
       }
-      const token = jwt.sign(existingUser, process.env.JTW_SECRET!, {
+      const token = jwt.sign(existingUser.data.user, process.env.JWT_SECRET!, {
         expiresIn: "7d",
       });
       return done(null, token);
     }
   )
 );
+
 passport.use(
   new GithubStrategy(
     {
-      clientID: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      clientID: process.env.GITHUB_OAUTH_CLIENT_ID,
+      clientSecret: process.env.GITHUB_OAUTH_CLIENT_SECRET,
       callbackURL: "http://localhost:8080/api/v1/auth/github/callback",
       scope: ["user:email"],
     },
@@ -142,5 +158,5 @@ server.listen(PORT, () => {
 
 app.use("/api/v1", router);
 app.get("/", (req, res) => {
-  res.send("Helo world.");
+  res.send("Welcome to Jamali Pay Server!");
 });

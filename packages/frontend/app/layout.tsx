@@ -7,7 +7,6 @@ const ThemeProvider = dynamic(() => import("@/components/theme-provider"), {
 import DarkModeButton from "@/components/DarkModeButton";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-import { ConvexClientProvider } from "@/providers/convex-client-provider";
 
 export const metadata: Metadata = {
   title: "Jamali Pay - Best payment gateway solution for SaaS Business",
@@ -26,7 +25,7 @@ export default async function RootLayout({
       <html lang="en">
         <body className="font-thicccboi font-medium">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ConvexClientProvider>{children}</ConvexClientProvider>
+            {children}
             <DarkModeButton />
           </ThemeProvider>
         </body>
