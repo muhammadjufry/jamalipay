@@ -33,8 +33,8 @@ export default function Hero() {
         transition={{ duration: 0.5, delay: 0.8 }}
         className="max-w-xl lg:text-center text-[17.5px] leading-8 dark:text-white text-slate-700"
       >
-        We support all banks in the world, except for Israel banks, and offer
-        secure, fast payment options for cryptocurrencies and e-wallets.
+        We support thousands of banks in the world, and offer secure, fast
+        payment options for cryptocurrencies and e-wallets.
       </motion.p>
       <motion.div
         initial={{ y: -20, opacity: 0 }}
