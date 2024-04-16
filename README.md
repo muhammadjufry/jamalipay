@@ -1,2 +1,2 @@
 # Jamali Pay
-Payment gateway like Stripe, Lemon Squezzy and others...
+Simple SAAS Landing Page
