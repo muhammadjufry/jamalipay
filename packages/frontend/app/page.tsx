@@ -24,7 +24,7 @@ async function Home() {
         <Hero />
         <div className="text-center flex flex-col gap-10">
           <h2 className="text-2xl font-bold text-black dark:text-white text-shadow p-4">
-            We support all banks in the world execpt Israel banks
+            Support thousands of banks in the world
           </h2>
           <BanksTicker />
         </div>
