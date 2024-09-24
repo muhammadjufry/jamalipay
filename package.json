@@ -24,8 +24,8 @@
   "license": "MIT",
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^10.0.0",
-    "semantic-release": "^23.0.0"
+    "@semantic-release/github": "^11.0.0",
+    "semantic-release": "^24.0.0"
   },
   "dependencies": {
     "concurrently": "^8.2.2"
